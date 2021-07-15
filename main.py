@@ -36,8 +36,14 @@ def face_recog(db_path, model_name, distance_metric, face_frame=5):
 	config.enable_stream(rs.stream.depth, size[0], size[1], rs.format.z16, 30)
 	profile = pipeline.start(config)
 
-	# Getting the depth sensor's depth scale
 	depth_sensor = profile.get_device().first_depth_sensor()
+	color_sensor = profile.get_device().first_color_sensor()
+
+	# Configure color sensor
+	color_sensor.set_option(rs.option.backlight_compensation, 1)
+	color_sensor.set_option(rs.option.gamma, 400)
+
+	# Getting the depth sensor's depth scale
 	depth_scale = depth_sensor.get_depth_scale()
 	print("Depth scale is: ", depth_scale)
 
