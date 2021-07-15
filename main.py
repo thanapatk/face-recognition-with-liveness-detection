@@ -8,6 +8,7 @@ import pyrealsense2 as rs
 # Local file
 from utils.face_recognition.face import startDeepFace, recognition
 from utils.liveness.liveness import validate_face
+from utils.firestore.firestore import update
 
 def face_recog(db_path, model_name, distance_metric, face_frame=5):
 	"""Main function to run this program"""
@@ -54,7 +55,7 @@ def face_recog(db_path, model_name, distance_metric, face_frame=5):
 		nonlocal identity
 		identity, time = future.result()
 		print(identity)
-		# TODO: update the db
+		executor.submit(update, identity)
 	#endregion
 
 	try:
