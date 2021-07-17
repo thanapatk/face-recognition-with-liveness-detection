@@ -4,7 +4,7 @@ import dlib
 from firebase_admin import credentials, initialize_app
 import pyrealsense2 as rs
 import concurrent.futures # threading
-from datetime import datetime
+from datetime import datetime, timezone
 
 # Local file
 from utils.face_recognition.face import startDeepFace, recognition
@@ -73,11 +73,11 @@ def main(db_path, model_name, distance_metric, face_frame=5):
 
 		nonlocal identity, raw_image
 		output, time = future.result()
-		now = datetime.utcnow()
+		now = datetime.now(tz=timezone.utc)
 
 		identity = {'identity': output, 'time': now}
 		firestore.update(output, now, raw_image)
-		#executor.submit(update, output, now, raw_image)
+		#executor.submit(firestore.update, output, now, raw_image)
 	#endregion
 
 	try:

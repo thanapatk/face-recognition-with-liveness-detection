@@ -1,6 +1,6 @@
 from __future__ import annotations # use python3.9 annotations
 import numpy as np
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from firebase_admin import firestore
 from utils.firebase.storage import StorageBucket
@@ -11,7 +11,7 @@ class FirestoreClient():
 		self.__bucket = StorageBucket(app)
 		self.__col_ref = self.db.collection('log')
 	
-	def __getFilename(dt: datetime, identity: str) -> tuple[str, str]:
+	def __getFilename(self, dt: datetime, identity: str) -> tuple[str, str]:
 		"""Generate filename from datetime object"""
 		foldername = dt.strftime('%Y%m')
 		filename = f"{dt.strftime('%Y%m%d%H%M%S')}-{identity}"
@@ -25,7 +25,7 @@ class FirestoreClient():
 		_get = doc_ref.get()
 		if _get.exists:
 			_prev_data = _get.to_dict()['time'][-1]
-			_prev = datetime.fromtimestamp(_prev_data.timestamp())
+			_prev = datetime.fromtimestamp(_prev_data.timestamp(), tz=timezone.utc)
 
 			# If the user scan face again before 45 mins(1 class),
 			# delete the replace the record with this (he might left and be late for class)
