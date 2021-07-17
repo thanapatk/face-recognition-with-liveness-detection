@@ -76,8 +76,8 @@ def main(db_path, model_name, distance_metric, face_frame=5):
 		now = datetime.now(tz=timezone.utc)
 
 		identity = {'identity': output, 'time': now}
-		firestore.update(output, now, raw_image)
-		#executor.submit(firestore.update, output, now, raw_image)
+		#firestore.update(output, now, raw_image)
+		executor.submit(lambda p: firestore.update(*p), [output, now, raw_image])
 	#endregion
 
 	try:
