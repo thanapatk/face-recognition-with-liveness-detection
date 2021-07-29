@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'folding_cube.dart';
 
 class FoldingCubeLoading extends StatelessWidget {
   final Color backgroundColor;
@@ -17,7 +18,7 @@ class FoldingCubeLoading extends StatelessWidget {
     return Container(
       color: backgroundColor,
       child: Center(
-        child: SpinKitFoldingCube(
+        child: FoldingCube(
           color: color,
           size: size,
         ),
