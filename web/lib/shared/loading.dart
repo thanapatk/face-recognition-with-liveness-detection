@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'folding_cube.dart';
+import 'package:web/shared/folding_cube.dart';
 
 class FoldingCubeLoading extends StatelessWidget {
   final Color backgroundColor;
@@ -8,9 +8,9 @@ class FoldingCubeLoading extends StatelessWidget {
   final double size;
   const FoldingCubeLoading({
     Key? key,
-    this.backgroundColor = Colors.white,
+    this.backgroundColor = const Color(0xfff8f8f8),
     this.color = const Color(0xff7367F0),
-    this.size = 30.0,
+    this.size = 40.0,
   }) : super(key: key);
 
   @override
