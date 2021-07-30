@@ -3,6 +3,7 @@ import 'package:web/services/auth.dart';
 import 'package:web/shared/constant.dart';
 import 'package:web/shared/loading.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -25,11 +26,34 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
+    DeviceScreenType _deviceType = getDeviceType(_size);
+    double _containerMultiplier;
+    double _loadingSize;
+    double _fontSize;
+    switch (_deviceType) {
+      case DeviceScreenType.mobile:
+        _containerMultiplier = 0.9;
+        _loadingSize = 60;
+        _fontSize = 28;
+        break;
+      case DeviceScreenType.tablet:
+        _containerMultiplier = 0.7;
+        _loadingSize = 50;
+        _fontSize = 30;
+        break;
+      default:
+        _containerMultiplier = 0.4;
+        _loadingSize = 40;
+        _fontSize = 34;
+        break;
+    }
+
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: Center(
         child: _loading
-            ? FoldingCubeLoading(size: _size.width * 0.03)
+            ? FoldingCubeLoading(
+                backgroundColor: Colors.transparent, size: _loadingSize)
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -46,7 +70,7 @@ class _SignInState extends State<SignIn> {
                         ),
                       ],
                     ),
-                    width: 0.4 * _size.width,
+                    width: _size.width * _containerMultiplier,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 40.0, vertical: 30.0),
@@ -54,27 +78,42 @@ class _SignInState extends State<SignIn> {
                         key: _formKey,
                         child: Column(
                           children: [
-                            CachedNetworkImage(
-                              imageUrl:
-                                  'images/SWU_Prasanmit_Demonstration_Sec_TH_Color.png',
-                              imageBuilder: (context, imageProvider) => Image(
-                                image: imageProvider,
-                                width: _size.width * .3,
-                              ),
-                              placeholder: (context, url) => SizedBox(
-                                width: _size.width * .3,
-                                height: (_size.width * .3) * 0.3243593902,
-                                child: WaveLoading(size: _size.width * 0.03),
-                              ),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
+                            Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                // Make a SizedBox with size aproximiately equals the image
+                                SizedBox(
+                                  width:
+                                      _size.width * (_containerMultiplier - .1),
+                                  height: (_size.width *
+                                          (_containerMultiplier - .1)) *
+                                      0.3243593902,
+                                ),
+                                CachedNetworkImage(
+                                  imageUrl:
+                                      'images/SWU_Prasanmit_Demonstration_Sec_TH_Color.png',
+                                  imageBuilder: (context, imageProvider) =>
+                                      Image(
+                                    image: imageProvider,
+                                    width: _size.width *
+                                        (_containerMultiplier - .1),
+                                  ),
+                                  placeholder: (context, url) =>
+                                      WaveLoading(size: _loadingSize),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
+                                ),
+                              ],
                             ),
                             Text(
                               'PSM Attendance',
                               style: Theme.of(context)
                                   .textTheme
                                   .headline3!
-                                  .copyWith(fontWeight: FontWeight.w500),
+                                  .copyWith(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: _fontSize,
+                                  ),
                             ),
                             const SizedBox(height: 20),
                             TextFormField(
@@ -118,6 +157,7 @@ class _SignInState extends State<SignIn> {
                                   val!.isEmpty ? 'Enter your password' : null,
                               onChanged: (val) =>
                                   setState(() => password = val),
+                              onFieldSubmitted: (val) => _submitForm(),
                             ),
                             if (error.isNotEmpty)
                               Text(
@@ -129,7 +169,7 @@ class _SignInState extends State<SignIn> {
                               ),
                             const SizedBox(height: 20),
                             SizedBox(
-                              width: _size.width * .2,
+                              width: _size.width * (_containerMultiplier - .2),
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   primary:
@@ -146,20 +186,7 @@ class _SignInState extends State<SignIn> {
                                         color: Colors.white, fontSize: 20),
                                   ),
                                 ),
-                                onPressed: () async {
-                                  if (_formKey.currentState!.validate()) {
-                                    setState(() => _loading = true);
-                                    dynamic result = await _authService
-                                        .signInWithEmailAndPassword(
-                                            email: email, password: password);
-                                    if (result == null) {
-                                      setState(() {
-                                        _loading = false;
-                                        error = "Invalid Credentials";
-                                      });
-                                    }
-                                  }
-                                },
+                                onPressed: _submitForm,
                               ),
                             )
                           ],
@@ -171,5 +198,20 @@ class _SignInState extends State<SignIn> {
               ),
       ),
     );
+  }
+
+  void _submitForm() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() => _loading = true);
+      await Future.delayed(const Duration(seconds: 2));
+      dynamic result = await _authService.signInWithEmailAndPassword(
+          email: email, password: password);
+      if (result == null) {
+        setState(() {
+          _loading = false;
+          error = "Invalid Credentials";
+        });
+      }
+    }
   }
 }
