@@ -137,6 +137,8 @@ def main(db_path, model_name, distance_metric, face_frame=5):
 
 			if cv2.waitKey(1) & 0xFF == ord('q'):
 				break
+	except Exception as e:
+		print(str(e))
 	finally:
 		cv2.destroyAllWindows()
 		pipeline.stop()
