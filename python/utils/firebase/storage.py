@@ -27,3 +27,13 @@ class StorageBucket():
 		except Exception as e:
 			print(e)
 	
+	def getPublicLink(self, destination_blob_name: str):
+		"""
+		Get the public link of the blob
+
+		Link Format: https://storage.googleapis.com/<BUCKET_NAME>/<BLOB_NAME>s
+		"""
+
+		blob = self.bucket.blob(destination_blob_name)
+		return blob.public_url
+	
