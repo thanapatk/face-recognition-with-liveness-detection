@@ -9,7 +9,7 @@ class FirestoreClient():
 	def __init__(self, app) -> None:
 		self.db = firestore.client(app)
 		self.__bucket = StorageBucket(app)
-		self.__col_ref = self.db.collection('log')
+		self.__col_ref = self.db.collection('logs')
 	
 	def __getFilename(self, dt: datetime, identity: str) -> tuple[str, str]:
 		"""Generate filename from datetime object"""
@@ -19,32 +19,13 @@ class FirestoreClient():
 
 	def update(self, identity: str, now: datetime, image: np.ndarray) -> None:
 		"Update the firestore database"
-		doc_ref = self.__col_ref.document(identity)
-
-		# get the lastest time of this user
-		_get = doc_ref.get()
-		if _get.exists:
-			_prev_data = _get.to_dict()['time'][-1]
-			_prev = datetime.fromtimestamp(_prev_data.timestamp(), tz=timezone.utc)
-
-			# If the user scan face again before 45 mins(1 class),
-			# delete the replace the record with this (he might left and be late for class)
-			if now - _prev < timedelta(minutes=45):
-				_prev_foldername, _prev_filename = self.__getFilename(_prev, identity)
-
-				self.__bucket.delete_file(f"{_prev_foldername}/{_prev_filename}.jpg")
-
-				doc_ref.update({
-					'time': firestore.ArrayRemove([_prev])
-				})
+		doc_ref = self.__col_ref.document(str(round(now.timestamp())))
 
 		foldername, filename = self.__getFilename(now, identity)
 
 		self.__bucket.upload_bytes(image, f'{foldername}/{filename}.jpg')
 
 		# Use set with merge instead of merge in case of new document
-		doc_ref.set({
-			'time': firestore.ArrayUnion([now])
-		}, merge=True)
+		doc_ref.set({'sid': identity})
 
 	
