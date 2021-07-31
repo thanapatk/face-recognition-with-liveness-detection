@@ -19,7 +19,7 @@ class FirestoreClient():
 
 	def update(self, identity: str, now: datetime, image: np.ndarray) -> None:
 		"Update the firestore database"
-		doc_ref = self.__col_ref.document(str(round(now.timestamp())))
+		doc_ref = self.__col_ref.document(str(round(now.timestamp() * 1000)))
 
 		foldername, filename = self.__getFilename(now, identity)
 
