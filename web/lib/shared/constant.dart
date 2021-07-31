@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'hex_color.dart';
+import 'package:web/shared/hex_color.dart';
+
+enum Pages { home, profile, signOut }
 
 ThemeData psmTheme = ThemeData(
   brightness: Brightness.light,
