@@ -106,7 +106,7 @@ class _SignInState extends State<SignIn> {
                               ],
                             ),
                             Text(
-                              'PSM Attendance',
+                              'PSM ATTENDANCE',
                               style: Theme.of(context)
                                   .textTheme
                                   .headline3!
