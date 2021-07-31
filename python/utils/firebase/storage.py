@@ -31,7 +31,7 @@ class StorageBucket():
 		"""
 		Get the public link of the blob
 
-		Link Format: https://storage.googleapis.com/<BUCKET_NAME>/<BLOB_NAME>s
+		Link Format: https://storage.googleapis.com/<BUCKET_NAME>/<BLOB_NAME>
 		"""
 
 		blob = self.bucket.blob(destination_blob_name)
