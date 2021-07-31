@@ -13,6 +13,7 @@ class DatabaseService {
     return UserData(
       uid: uid,
       sid: data['sid'],
+      prefix: data['prefix'],
       firstname: data['firstname'],
       lastname: data['lastname'],
       classroom: data['classroom'],
