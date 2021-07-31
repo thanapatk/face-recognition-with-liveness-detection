@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:web/models/user.dart';
 import 'package:web/screens/auth/sign_in.dart';
 import 'package:web/screens/home/home.dart';
+import 'package:web/services/database.dart';
 import 'package:web/shared/loading.dart';
 
 class Wrapper extends StatelessWidget {
@@ -11,6 +14,7 @@ class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _isSignIn = context.watch<bool?>();
+    final _user = context.watch<User?>();
     return _isSignIn == null
         ? FoldingCubeLoading(
             backgroundColor: Theme.of(context).backgroundColor,
@@ -21,8 +25,11 @@ class Wrapper extends StatelessWidget {
               desktop: 40,
             ),
           )
-        : _isSignIn
-            ? Home()
+        : (_isSignIn && _user != null)
+            ? StreamProvider<UserData?>(
+                initialData: null,
+                create: (context) => DatabaseService(uid: _user.uid).userData,
+                child: const Home())
             : const SignIn();
   }
 }
