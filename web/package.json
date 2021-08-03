@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "firebase": "^8.7.1"
+  },
+  "scripts": {
+    "deploy": "flutter build web && firebase deploy"
   }
 }
