@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:web/models/user.dart';
 import 'package:web/screens/auth/sign_in.dart';
-import 'package:web/screens/home/home.dart';
+import 'package:web/screens/home/home_wrapper.dart';
 import 'package:web/services/database.dart';
 import 'package:web/shared/loading.dart';
 
@@ -29,7 +29,7 @@ class Wrapper extends StatelessWidget {
             ? StreamProvider<UserData?>(
                 initialData: null,
                 create: (context) => DatabaseService(uid: _user.uid).userData,
-                child: const Home())
+                child: const HomeWrapper())
             : const SignIn();
   }
 }
