@@ -203,7 +203,6 @@ class _SignInState extends State<SignIn> {
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       setState(() => _loading = true);
-      await Future.delayed(const Duration(seconds: 2));
       dynamic result = await _authService.signInWithEmailAndPassword(
           email: email, password: password);
       if (result == null) {
