@@ -19,13 +19,16 @@ class FirestoreClient():
 
 	def update(self, identity: str, now: datetime, image: np.ndarray) -> None:
 		"Update the firestore database"
-		doc_ref = self.__col_ref.document(str(round(now.timestamp() * 1000)))
+		timestamp = str(now.timestamp() * 1000).split('.')[0]
+		doc_ref = self.__col_ref.document(timestamp)
 
 		foldername, filename = self.__getFilename(now, identity)
+
+		# TODO: delete recent record if user re enters the room
 
 		self.__bucket.upload_bytes(image, f'{foldername}/{filename}.jpg')
 
 		# Use set with merge instead of merge in case of new document
-		doc_ref.set({'sid': identity})
+		doc_ref.set({'sid': identity, 'timestamp': int(timestamp)})
 
 	
