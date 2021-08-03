@@ -3,6 +3,20 @@ import 'package:web/shared/hex_color.dart';
 
 enum Pages { home, profile, signOut }
 
+enum Status { onTime, late }
+Text statusWidgets(Status? status, TextStyle textStyle) {
+  switch (status) {
+    case Status.onTime:
+      return Text('เข้าเรียน', style: textStyle.copyWith(color: Colors.green));
+    case Status.late:
+      return Text('สาย', style: textStyle.copyWith(color: Colors.red));
+    default:
+      return const Text('');
+  }
+}
+
+const String storageBucketName = "scan-face-49afb.appspot.com";
+
 ThemeData psmTheme = ThemeData(
   brightness: Brightness.light,
   backgroundColor: HexColor('f8f8f8'),
