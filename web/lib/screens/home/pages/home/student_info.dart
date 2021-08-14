@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:web/shared/loading.dart';
-import 'package:web/screens/home/pages/home/home_page.dart';
+import 'package:web/screens/home/pages/home/student_home_page.dart';
 
-class UserInfo extends StatelessWidget {
-  const UserInfo({
+class StudentInfo extends StatelessWidget {
+  const StudentInfo({
     Key? key,
     required this.widget,
   }) : super(key: key);
 
-  final HomePage widget;
+  final StudentHomePage widget;
 
   final double _imageHeight = 120;
 
@@ -65,13 +65,13 @@ class UserInfo extends StatelessWidget {
   }
 }
 
-class UserInfoMobile extends StatelessWidget {
-  const UserInfoMobile({
+class StudentInfoMobile extends StatelessWidget {
+  const StudentInfoMobile({
     Key? key,
     required this.widget,
   }) : super(key: key);
 
-  final HomePage widget;
+  final StudentHomePage widget;
 
   final double _imageHeight = 120;
 

@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:web/models/log.dart';
 import 'package:web/models/user.dart';
-import 'package:web/screens/home/pages/home/home_page.dart';
+import 'package:web/screens/home/pages/home/student_home_page.dart';
 import 'package:web/screens/home/pages/profile/profile_page.dart';
 import 'package:web/screens/home/pages/shared/mobile_drawer.dart';
 import 'package:web/services/auth.dart';
@@ -56,7 +56,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
                 currentIndex: _currentPage.index,
                 pageController: _pageController,
                 pages: [
-                  HomePage(
+                  StudentHomePage(
                     deviceScreenType: sizeInfo.deviceScreenType,
                     userData: _userData,
                     userLogs: userLogs,

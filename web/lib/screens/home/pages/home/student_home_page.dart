@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:web/models/log.dart';
 import 'package:web/models/user.dart';
-import 'package:web/screens/home/pages/home/user_info.dart';
+import 'package:web/screens/home/pages/home/student_info.dart';
 import 'package:web/services/database.dart';
 import 'package:web/shared/constant.dart';
 import 'package:web/shared/loading.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-class HomePage extends StatefulWidget {
+class StudentHomePage extends StatefulWidget {
   final DeviceScreenType deviceScreenType;
   final UserData userData;
   final List<UserLog>? userLogs;
   final Function(List<UserLog>) updateUserLogs;
 
-  const HomePage({
+  const StudentHomePage({
     Key? key,
     required this.userData,
     required this.userLogs,
@@ -23,10 +23,10 @@ class HomePage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<StudentHomePage> createState() => _StudentHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _StudentHomePageState extends State<StudentHomePage> {
   DateTime _selectedDate = DateTime.now();
   bool changed = false;
   late DatabaseService _databaseService;
@@ -48,8 +48,8 @@ class _HomePageState extends State<HomePage> {
         mainAxisSize: MainAxisSize.max,
         children: [
           widget.deviceScreenType == DeviceScreenType.mobile
-              ? UserInfoMobile(widget: widget)
-              : UserInfo(widget: widget),
+              ? StudentInfoMobile(widget: widget)
+              : StudentInfo(widget: widget),
           Divider(
             height: 20,
             thickness: 1,
