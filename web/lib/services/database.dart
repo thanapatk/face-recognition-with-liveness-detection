@@ -13,14 +13,23 @@ class DatabaseService {
 
   UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
     dynamic data = snapshot.data();
-    return UserData(
-      uid: uid,
-      sid: data['sid'],
-      prefix: data['prefix'],
-      firstname: data['firstname'],
-      lastname: data['lastname'],
-      classroom: data['classroom'],
-    );
+    return data['role'] == 'teacher'
+        ? UserData(
+            uid: uid,
+            prefix: data['prefix'],
+            firstname: data['firstname'],
+            lastname: data['lastname'],
+            role: data['role'],
+          )
+        : UserData(
+            uid: uid,
+            sid: data['sid'],
+            prefix: data['prefix'],
+            firstname: data['firstname'],
+            lastname: data['lastname'],
+            classroom: data['classroom'],
+            role: data['role'],
+          );
   }
 
   List<UserLog> _userLogFromQuerySnapshot(QuerySnapshot querySnapshot) {

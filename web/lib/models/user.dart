@@ -1,18 +1,20 @@
 class UserData {
   final String uid;
-  final String sid;
+  final String? sid;
   final String prefix;
   final String firstname;
   final String lastname;
-  final String classroom;
-  String picUrl;
+  final String? classroom;
+  final String role;
+  late String picUrl;
 
   UserData({
     required this.uid,
-    required this.sid,
+    this.sid,
     required this.prefix,
     required this.firstname,
     required this.lastname,
-    required this.classroom,
+    this.classroom,
+    required this.role,
   }) : picUrl = 'https://epsm.spsm.ac.th/files/student/photo/$sid.jpg';
 }
