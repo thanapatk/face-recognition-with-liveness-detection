@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:web/models/user.dart';
-import 'package:web/screens/home/nav_bar.dart';
+import 'package:web/screens/home/pages/shared/nav_bar.dart';
 import 'package:web/services/auth.dart';
 import 'package:web/shared/constant.dart';
 
-class Home extends StatefulWidget {
+class HomeBuilder extends StatefulWidget {
   final AuthService authService;
   final UserData userData;
   final int currentIndex;
@@ -15,7 +15,7 @@ class Home extends StatefulWidget {
   final Function(Pages) animateTo;
   final DeviceScreenType deviceScreenType;
 
-  const Home({
+  const HomeBuilder({
     Key? key,
     required this.authService,
     required this.userData,
@@ -28,10 +28,10 @@ class Home extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState();
+  _HomeBuilderState createState() => _HomeBuilderState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeBuilderState extends State<HomeBuilder> {
   @override
   Widget build(BuildContext context) {
     return Column(
