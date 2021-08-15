@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class BubbleIconButton extends StatelessWidget {
   final IconData icon;
   final String text;
-  final Function onTap;
+  final void Function()? onTap;
   final bool enabled;
   const BubbleIconButton({
     Key? key,
@@ -47,7 +47,7 @@ class BubbleIconButton extends StatelessWidget {
           ),
         ),
       ),
-      onTap: () => enabled ? onTap : null,
+      onTap: enabled ? onTap : null,
     );
   }
 }

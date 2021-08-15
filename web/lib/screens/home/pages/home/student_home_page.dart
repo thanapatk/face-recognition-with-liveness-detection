@@ -63,7 +63,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
               text: dateChanged
                   ? _selectedDate.toLocal().toString().split(' ').first
                   : 'Select a date',
-              onTap: () => onSelectDate(),
+              onTap: () => onSelectDate(context),
             ),
           ),
           SizedBox(height: _padding),
@@ -98,7 +98,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
     );
   }
 
-  void onSelectDate() async {
+  void onSelectDate(BuildContext context) async {
     DateTime? _picked = await showDatePicker(
       context: context,
       initialDate: _selectedDate,
