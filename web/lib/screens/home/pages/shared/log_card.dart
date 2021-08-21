@@ -87,69 +87,76 @@ class _LogCard extends StatelessWidget {
       loadingBuilder: (context, image, progress) => Card(
         clipBehavior: Clip.antiAlias,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: progress != null
-              ? [
-                  SizedBox(
-                      height: _size.height * .3, child: const WaveLoading())
-                ]
-              : [
-                  image,
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        logMode == LogMode.teacher
-                            ? Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    'เลขประจำตัว',
-                                    style: theme.textTheme.bodyText1!
-                                        .copyWith(fontWeight: FontWeight.w500),
-                                  ),
-                                  Text(userLog.sid,
-                                      style: theme.textTheme.bodyText1),
-                                ],
-                              )
-                            : Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text('คาบ: ',
+        // Fix Renderflex Overflow
+        child: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: progress != null
+                ? [
+                    SizedBox(
+                        height: _size.height * .3, child: const WaveLoading())
+                  ]
+                : [
+                    image,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          logMode == LogMode.teacher
+                              ? Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      'เลขประจำตัว: ',
                                       style: theme.textTheme.bodyText1!
                                           .copyWith(
-                                              fontWeight: FontWeight.w500)),
-                                  Text(userLog.period,
-                                      style: theme.textTheme.bodyText1),
-                                ],
-                              ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text('เวลา: ',
-                                style: theme.textTheme.bodyText1!
-                                    .copyWith(fontWeight: FontWeight.w500)),
-                            Text(userLog.time, style: theme.textTheme.bodyText1)
-                          ],
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text('สถานะ: ',
-                                style: theme.textTheme.bodyText1!
-                                    .copyWith(fontWeight: FontWeight.w500)),
-                            statusWidgets(
-                                userLog.status, theme.textTheme.bodyText1!),
-                          ],
-                        ),
-                        SizedBox(height: theme.textTheme.bodyText1!.fontSize)
-                      ],
+                                              fontWeight: FontWeight.w500),
+                                    ),
+                                    Text(userLog.sid,
+                                        style: theme.textTheme.bodyText1),
+                                  ],
+                                )
+                              : Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text('คาบ: ',
+                                        style: theme.textTheme.bodyText1!
+                                            .copyWith(
+                                                fontWeight: FontWeight.w500)),
+                                    Text(userLog.period,
+                                        style: theme.textTheme.bodyText1),
+                                  ],
+                                ),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text('เวลา: ',
+                                  style: theme.textTheme.bodyText1!
+                                      .copyWith(fontWeight: FontWeight.w500)),
+                              Text(userLog.time,
+                                  style: theme.textTheme.bodyText1)
+                            ],
+                          ),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text('สถานะ: ',
+                                  style: theme.textTheme.bodyText1!
+                                      .copyWith(fontWeight: FontWeight.w500)),
+                              statusWidgets(
+                                  userLog.status, theme.textTheme.bodyText1!),
+                            ],
+                          ),
+                          SizedBox(height: theme.textTheme.bodyText1!.fontSize)
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+          ),
         ),
       ),
     );
