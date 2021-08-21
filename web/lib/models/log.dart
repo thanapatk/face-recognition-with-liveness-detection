@@ -21,7 +21,7 @@ Map<String, List<int>> _periodRef = _periodStringRef.map<String, List<int>>(
 */
 const int _allowedBeforeClass = 5 * 60 * 1000;
 const int _canLateBy = 10 * 60 * 1000;
-const Map<String, List<int>> _periodRef = {
+const Map<String, List<int>> periodRef = {
   '1': [29700000 - _allowedBeforeClass, 32400000 - _allowedBeforeClass],
   '2': [32400000 - _allowedBeforeClass, 35100000 - _allowedBeforeClass],
   '3': [35400000 - _allowedBeforeClass, 38100000 - _allowedBeforeClass],
@@ -56,7 +56,7 @@ class UserLog {
     // Get milliseconds since that day started
     int time = timestamp - day;
 
-    for (MapEntry<String, List<int>> entry in _periodRef.entries) {
+    for (MapEntry<String, List<int>> entry in periodRef.entries) {
       // if time in period range
       if (time >= entry.value[0] && time <= entry.value[1]) {
         String period = entry.key;
