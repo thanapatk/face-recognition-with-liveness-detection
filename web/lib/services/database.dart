@@ -54,6 +54,22 @@ class DatabaseService {
         .then(_userLogFromQuerySnapshot);
   }
 
+  Future<List<UserLog>> getUserLogsFromPeriod({
+    required int timestamp,
+    required int period,
+  }) async {
+    List<int>? time = periodRef[period.toString()];
+    if (time != null) {
+      return logsCollection
+          .where('timestamp', isGreaterThan: timestamp + time.first)
+          .where('timestamp', isLessThan: timestamp + time.last)
+          .get()
+          .then(_userLogFromQuerySnapshot);
+    } else {
+      return List.empty();
+    }
+  }
+
   Stream<UserData> get userData =>
       usersCollection.doc(uid).snapshots().map(_userDataFromSnapshot);
 }
