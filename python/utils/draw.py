@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Tuple
+from typing import Any, Tuple
 import cv2
 import numpy as np
 
@@ -15,16 +15,27 @@ class Point:
         return (self.x, self.y)
 
 
-def rounded_rectangle(src: np.array, top_left: Point, bottom_right: Point, cornerRadius: int = 10, color: tuple = (255,255,255), thickness: int = 1, lineType=cv2.LINE_AA):
+def rounded_rectangle(src: np.array, top_left: tuple, bottom_right: tuple, cornerRadius: int = 10, color: tuple = (255,255,255), thickness: int = 1, lineType: int=cv2.LINE_AA) -> Any:
+    """Create a rounded rectangle
+
+    Args:
+        src (np.array): Image
+        top_left (Point): Top left vertex of the rectangle
+        bottom_right (Point): Bottom right vertex the rectangle
+        cornerRadius (int, optional): The radius of the rounded corner. Defaults to 10.
+        color (tuple, optional): Color of the rectangle. Defaults to (255,255,255).
+        thickness (int, optional): Thickness of the line. Set to -1 to fills the rectangle. Defaults to 1.
+        lineType (int, optional): Line Type. Defaults to cv2.LINE_AA.
+    """
     #  corners:
     #  p1 - p2
     #  |     |
     #  p4 - p3
 
-    p1 = top_left
-    p2 = Point(bottom_right.x, top_left.y)
-    p3 = bottom_right
-    p4 = Point(top_left.x, bottom_right.y)
+    p1 = Point(top_left[0], top_left[1])
+    p2 = Point(bottom_right[0], top_left[1])
+    p3 = Point(bottom_right[0], bottom_right[1])
+    p4 = Point(top_left[0], bottom_right[1])
 
     # Fill
     if thickness < 0:
@@ -46,5 +57,3 @@ def rounded_rectangle(src: np.array, top_left: Point, bottom_right: Point, corne
     cv2.ellipse(src, (p2+Point(-cornerRadius, cornerRadius)).toTuple(), (cornerRadius, cornerRadius), 270.0, 0, 90, color, thickness, lineType);
     cv2.ellipse(src, (p3+Point(-cornerRadius, -cornerRadius)).toTuple(), (cornerRadius, cornerRadius), 0.0, 0, 90, color, thickness, lineType);
     cv2.ellipse(src, (p4+Point(cornerRadius, -cornerRadius)).toTuple(), (cornerRadius, cornerRadius), 90.0, 0, 90, color, thickness, lineType);
-
-    return src
