@@ -28,35 +28,12 @@ def rounded_rectangle(src: np.array, top_left: Point, bottom_right: Point, corne
 
     # Fill
     if thickness < 0:
-        # main rect
-        top_left_main_rect = Point(p1.x+cornerRadius, p1.y+cornerRadius)
-        bottom_right_main_rect = Point(p3.x-cornerRadius, p3.y-cornerRadius)
-        
-        #region shared top left
-        # left rect
-        bottom_left_left_rect = Point(p4.x, p4.y - cornerRadius)
+        #main rect 
+        main_rect = [Point(p1.x + cornerRadius, p1.y), Point(p3.x - cornerRadius, p3.y)]
+        left_rect = [Point(p1.x + cornerRadius, p1.y + cornerRadius), Point(p4.x, p4.y - cornerRadius)]
+        right_rect = [Point(p2.x - cornerRadius, p2.y + cornerRadius), Point(p3.x, p3.y - cornerRadius)]
 
-        # top rect
-        top_right_top_rect = Point(p2.x - cornerRadius, p2.y)
-        #endregion
-
-        #region shared bottom right
-        # bottom rect
-        bottom_left_bottom_rect = Point(p4.x + cornerRadius, p4.y)
-        
-        # right rect
-        top_right_right_rect = Point(p2.x, p2.y + cornerRadius)
-        #endregion
-
-        all_rects = [
-            [top_left_main_rect, bottom_right_main_rect],
-            [top_left_main_rect, bottom_left_left_rect],
-            [top_left_main_rect, top_right_top_rect],
-            [bottom_right_main_rect, bottom_left_bottom_rect],
-            [bottom_right_main_rect, top_right_right_rect]
-            ]
-
-        [cv2.rectangle(src, rect[0].toTuple(), rect[1].toTuple(), color, thickness) for rect in all_rects]
+        [cv2.rectangle(src, rect[0].toTuple(), rect[1].toTuple(), color, thickness) for rect in [main_rect, left_rect, right_rect]]
 
     # Outline
     cv2.line(src, (p1.x+cornerRadius,p1.y), (p2.x-cornerRadius,p2.y), color, abs(thickness), lineType);
