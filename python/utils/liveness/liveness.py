@@ -6,11 +6,14 @@ from .markup_68 import markup_68
 def find_depth_from(frame, depth_scale, landmark, markup_from, markup_to) -> Any:
 	"Return a average depth value of the specific element"
 	data = np.asanyarray(frame.get_data())
+	shape = data.shape
 
 	average_depth = 0
 	n_points = 0
 	for i in range(markup_from.value, markup_to.value + 1):
 		pt = landmark.part(i)
+		if pt.y > shape[0] or pt.x > shape[1]:
+			continue
 		depth_in_pixels = data[pt.y, pt.x].astype(float)
 		if not depth_in_pixels:
 			continue
