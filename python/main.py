@@ -13,6 +13,8 @@ from utils.face_recognition.face import startDeepFace, recognition
 from utils.liveness.liveness import validate_face
 from utils.firebase.firestore import FirestoreClient
 
+machine_id = "Z4odZZCGp52ok8LrFifD"
+
 def check_face(box, img) -> bool:
 	shape = img.shape
 	return box.left() > 0 and box.right() < shape[1] and box.top() > 0 and box.bottom() < shape[0]
@@ -104,9 +106,9 @@ def main(db_path, model_name, distance_metric, face_frame=5):
 		output, time = future.result()
 		utc_now = datetime.now(tz=timezone.utc)
 		
-		identity = {'identity': output, 'time': utc_now.astimezone()}
+		identity = {'identity': output, 'time': utc_now.astimezone(), 'machine': machine_id}
 		#firestore.update(output, now, raw_image)
-		#executor.submit(lambda p: firestore.update(*p), [output, now, raw_image])
+		executor.submit(lambda p: firestore.update(*p), [output, utc_now, raw_image])
 	#endregion
 
 	try:
