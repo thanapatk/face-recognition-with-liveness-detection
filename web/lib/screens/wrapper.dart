@@ -26,10 +26,21 @@ class Wrapper extends StatelessWidget {
             ),
           )
         : (_isSignIn && _user != null)
-            ? StreamProvider<UserData?>(
-                initialData: null,
-                create: (context) => DatabaseService(uid: _user.uid).userData,
-                child: const HomeWrapper())
+            ? MultiProvider(
+                providers: [
+                  StreamProvider<UserData?>(
+                    initialData: null,
+                    create: (context) =>
+                        DatabaseService(uid: _user.uid).userData,
+                  ),
+                  StreamProvider<Map<String, String>?>(
+                    initialData: null,
+                    create: (context) =>
+                        DatabaseService(uid: _user.uid).machines,
+                  ),
+                ],
+                child: const HomeWrapper(),
+              )
             : const SignIn();
   }
 }

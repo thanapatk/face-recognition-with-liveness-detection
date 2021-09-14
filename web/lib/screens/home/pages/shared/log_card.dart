@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:web/models/log.dart';
 import 'package:web/shared/constant.dart';
 import 'package:web/shared/loading.dart';
@@ -79,6 +80,7 @@ class _LogCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Map<String, String>? machines = context.watch<Map<String, String>?>();
     final _size = MediaQuery.of(context).size;
     final theme = Theme.of(context);
     return Image.network(
@@ -93,7 +95,7 @@ class _LogCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
-            children: progress != null
+            children: progress != null || machines == null
                 ? [
                     SizedBox(
                         height: _size.height * .3, child: const WaveLoading())
@@ -106,6 +108,20 @@ class _LogCard extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          if (logMode == LogMode.student)
+                            RichText(
+                              text: TextSpan(
+                                text: 'ห้อง: ',
+                                style: theme.textTheme.bodyText1!
+                                    .copyWith(fontWeight: FontWeight.w500),
+                                children: [
+                                  TextSpan(
+                                    text: machines[userLog.machineId],
+                                    style: theme.textTheme.bodyText1,
+                                  )
+                                ],
+                              ),
+                            ),
                           logMode == LogMode.teacher
                               ? RichText(
                                   text: TextSpan(

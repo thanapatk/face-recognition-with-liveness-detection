@@ -10,6 +10,8 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('users');
   final CollectionReference logsCollection =
       FirebaseFirestore.instance.collection('logs');
+  final CollectionReference machinesCollection =
+      FirebaseFirestore.instance.collection('machines');
 
   UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
     dynamic data = snapshot.data();
@@ -35,8 +37,10 @@ class DatabaseService {
   List<UserLog> _userLogFromQuerySnapshot(QuerySnapshot querySnapshot) {
     return querySnapshot.docs
         .map((dynamic snapshot) => UserLog(
-            sid: snapshot.data()['sid'],
-            timestamp: snapshot.data()['timestamp']))
+              sid: snapshot.data()['sid'],
+              timestamp: snapshot.data()['timestamp'],
+              machineId: snapshot.data()['machine'],
+            ))
         .toList();
   }
 
@@ -70,6 +74,17 @@ class DatabaseService {
     }
   }
 
+  Map<String, String> getMachinesFromSnapshot(QuerySnapshot snapshot) {
+    final Map<String, String> output = {};
+    for (dynamic doc in snapshot.docs) {
+      output[doc.id] = doc.data()['name'];
+    }
+    return output;
+  }
+
   Stream<UserData> get userData =>
       usersCollection.doc(uid).snapshots().map(_userDataFromSnapshot);
+
+  Stream<Map<String, String>> get machines =>
+      machinesCollection.snapshots().map(getMachinesFromSnapshot);
 }

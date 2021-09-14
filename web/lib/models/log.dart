@@ -44,6 +44,7 @@ int getDateTimestamp(int timestamp) {
 class UserLog {
   final String sid;
   final int timestamp;
+  final String machineId;
   late String picUrl;
   late String time;
   late String period;
@@ -85,6 +86,7 @@ class UserLog {
   UserLog({
     required this.sid,
     required this.timestamp,
+    required this.machineId,
   }) {
     dynamic temp = _getPeriodAndStatus(timestamp);
     if (temp != null) {
