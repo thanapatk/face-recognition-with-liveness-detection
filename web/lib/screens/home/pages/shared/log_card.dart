@@ -107,49 +107,55 @@ class _LogCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           logMode == LogMode.teacher
-                              ? Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      'เลขประจำตัว: ',
-                                      style: theme.textTheme.bodyText1!
-                                          .copyWith(
-                                              fontWeight: FontWeight.w500),
-                                    ),
-                                    Text(userLog.sid,
-                                        style: theme.textTheme.bodyText1),
-                                  ],
+                              ? RichText(
+                                  text: TextSpan(
+                                    text: 'เลขประจำตัว: ',
+                                    style: theme.textTheme.bodyText1!
+                                        .copyWith(fontWeight: FontWeight.w500),
+                                    children: [
+                                      TextSpan(
+                                        text: userLog.sid,
+                                        style: theme.textTheme.bodyText1,
+                                      )
+                                    ],
+                                  ),
                                 )
-                              : Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text('คาบ: ',
-                                        style: theme.textTheme.bodyText1!
-                                            .copyWith(
-                                                fontWeight: FontWeight.w500)),
-                                    Text(userLog.period,
-                                        style: theme.textTheme.bodyText1),
-                                  ],
+                              : RichText(
+                                  text: TextSpan(
+                                    text: 'คาบ: ',
+                                    style: theme.textTheme.bodyText1!
+                                        .copyWith(fontWeight: FontWeight.w500),
+                                    children: [
+                                      TextSpan(
+                                        text: userLog.period,
+                                        style: theme.textTheme.bodyText1,
+                                      )
+                                    ],
+                                  ),
                                 ),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text('เวลา: ',
-                                  style: theme.textTheme.bodyText1!
-                                      .copyWith(fontWeight: FontWeight.w500)),
-                              Text(userLog.time,
-                                  style: theme.textTheme.bodyText1)
-                            ],
+                          RichText(
+                            text: TextSpan(
+                              text: 'เวลา: ',
+                              style: theme.textTheme.bodyText1!
+                                  .copyWith(fontWeight: FontWeight.w500),
+                              children: [
+                                TextSpan(
+                                  text: userLog.time,
+                                  style: theme.textTheme.bodyText1,
+                                )
+                              ],
+                            ),
                           ),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text('สถานะ: ',
-                                  style: theme.textTheme.bodyText1!
-                                      .copyWith(fontWeight: FontWeight.w500)),
-                              statusWidgets(
-                                  userLog.status, theme.textTheme.bodyText1!),
-                            ],
+                          RichText(
+                            text: TextSpan(
+                              text: 'สถานะ: ',
+                              style: theme.textTheme.bodyText1!
+                                  .copyWith(fontWeight: FontWeight.w500),
+                              children: [
+                                statusWidgets(
+                                    userLog.status, theme.textTheme.bodyText1!)
+                              ],
+                            ),
                           ),
                           SizedBox(height: theme.textTheme.bodyText1!.fontSize)
                         ],

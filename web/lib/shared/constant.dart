@@ -4,14 +4,14 @@ import 'package:web/shared/hex_color.dart';
 enum Pages { home, profile, signOut }
 
 enum Status { onTime, late }
-Text statusWidgets(Status? status, TextStyle textStyle) {
+TextSpan statusWidgets(Status? status, TextStyle textStyle) {
   switch (status) {
     case Status.onTime:
-      return Text('เข้าเรียน', style: textStyle.copyWith(color: Colors.green));
+      return TextSpan(text: 'เข้าเรียน', style: textStyle.copyWith(color: Colors.green));
     case Status.late:
-      return Text('สาย', style: textStyle.copyWith(color: Colors.red));
+      return TextSpan(text: 'สาย', style: textStyle.copyWith(color: Colors.red));
     default:
-      return const Text('');
+      return const TextSpan(text: '');
   }
 }
 
