@@ -8,6 +8,7 @@ import 'package:web/models/user.dart';
 import 'package:web/screens/home/pages/shared/log_card.dart';
 import 'package:web/services/database.dart';
 import 'package:web/shared/bubble_icon_button.dart';
+import 'package:web/shared/report.dart';
 
 class TeacherHomePage extends StatefulWidget {
   final DeviceScreenType deviceScreenType;
@@ -142,7 +143,14 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
                 icon: Icons.download,
                 text: 'Download Data',
                 enabled: widget.userLogs?.isNotEmpty ?? false,
-                onTap: () {},
+                onTap: () async => downloadExcelFile(
+                  period: period!,
+                  dateTime: _selectedDate,
+                  classroom: "1912",
+                  userLogs: widget.userLogs!,
+                  userDatas: await _databaseService
+                      .userDataFromUserLogs(widget.userLogs!),
+                ),
               )
             ],
           ),
