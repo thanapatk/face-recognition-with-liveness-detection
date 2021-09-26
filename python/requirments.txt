@@ -1,0 +1,8 @@
+dlib
+tensorflow
+deepface
+firebase_admin
+pyrealsense2
+pickle
+tqdm
+pandas
